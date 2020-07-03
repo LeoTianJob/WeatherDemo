@@ -1,9 +1,11 @@
 import React, { useEffect, useCallback, useState } from "react";
 import "./App.css";
-import axios from "axios";
 
 const API_KEY = "a62675dca961443baa64357649e4fe63";
-const CITY_ID = "1819729"; //This is for HK
+// CITY_ID 1819730 is for Hong Kong Special Administrative Region
+const CITY_ID = "1819730"; //This is for HK
+
+const FONT_SIZE = 80;
 
 const MONTH_LIST = {
   0: "Jan",
@@ -44,17 +46,17 @@ function App() {
       .finally(() => {});
   }, []);
 
-  // useEffect(() => {
-  //   fetchData();
-  // }, [fetchData]);
-
   useEffect(() => {
-    const _interval = setInterval(() => {
-      fetchData();
-    }, 10000);
-
-    return () => clearInterval(_interval);
+    fetchData();
   }, [fetchData]);
+
+  // useEffect(() => {
+  //   const _interval = setInterval(() => {
+  //     fetchData();
+  //   }, 10000);
+
+  //   return () => clearInterval(_interval);
+  // }, [fetchData]);
 
   const year = new Date().getFullYear();
   const month = MONTH_LIST[new Date().getMonth()];
@@ -72,11 +74,11 @@ function App() {
         display: "flex",
         flexDirection: "row",
         backgroundColor: "black",
-        height: window.innerWidth / 10,
-        // width: window.innerWidth,
+        height: 230,
+        width: 1630,
         justifyContent: "flex-start",
         alignItems: "center",
-        clipPath: "polygon(0% 0%, 100% 0%, 90% 100%, 0% 100%)",
+        // clipPath: "polygon(0% 0%, 100% 0%, 90% 100%, 0% 100%)",
       }}
       className="App"
     >
@@ -85,7 +87,7 @@ function App() {
           marginLeft: "10vh",
           fontFamily: "Source Sans Pro",
           fontWeight: "bold",
-          fontSize: 36,
+          fontSize: FONT_SIZE,
           color: "white",
         }}
       >
@@ -94,9 +96,9 @@ function App() {
       <div
         style={{
           fontFamily: "Source Sans Pro",
-          fontSize: 36,
+          fontSize: FONT_SIZE,
           color: "white",
-          marginLeft: 10,
+          marginLeft: 40,
         }}
       >
         {day}
@@ -105,7 +107,7 @@ function App() {
         <div
           style={{
             fontFamily: "Source Sans Pro",
-            fontSize: 36,
+            fontSize: FONT_SIZE,
             color: "white",
             marginLeft: 10,
           }}
@@ -117,20 +119,22 @@ function App() {
           style={{
             display: "flex",
             flexDirection: "row",
+            justifyContent: 'center',
+            alignItems: 'center',
           }}
         >
           <img
-            style={{ marginLeft: 10 }}
+            style={{ width: FONT_SIZE * 1.5, height: FONT_SIZE * 1.5, marginLeft: 40 }}
             id="wicon"
             src={`http://openweathermap.org/img/w/${icon}.png`}
             alt="Weather icon"
-          ></img>
+          />
           <div
             style={{
               fontFamily: "Source Sans Pro",
-              fontSize: 36,
+              fontSize: FONT_SIZE,
               color: "white",
-              marginLeft: 10,
+              marginLeft: 40,
             }}
           >
             {(temp - 273.15).toFixed(0)} &deg;C
