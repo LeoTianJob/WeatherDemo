@@ -36,27 +36,28 @@ function App() {
   const [data, setData] = useState(null);
 
   const fetchData = useCallback(() => {
-    console.log("Fetching weather ...");
     fetch(
       `http://api.openweathermap.org/data/2.5/weather?id=${CITY_ID}&appid=${API_KEY}`
     )
       .then((response) => response.json())
-      .then((result) => setData(result))
-      .catch()
+      .then((result) => {
+        console.log("result: ");
+        setData(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
       .finally(() => {});
   }, []);
 
   useEffect(() => {
     fetchData();
+    const _interval = setInterval(() => {
+      fetchData();
+    }, 1000 * 60 * 60);
+
+    return () => clearInterval(_interval);
   }, [fetchData]);
-
-  // useEffect(() => {
-  //   const _interval = setInterval(() => {
-  //     fetchData();
-  //   }, 10000);
-
-  //   return () => clearInterval(_interval);
-  // }, [fetchData]);
 
   const year = new Date().getFullYear();
   const month = MONTH_LIST[new Date().getMonth()];
@@ -119,12 +120,16 @@ function App() {
           style={{
             display: "flex",
             flexDirection: "row",
-            justifyContent: 'center',
-            alignItems: 'center',
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
           <img
-            style={{ width: FONT_SIZE * 1.5, height: FONT_SIZE * 1.5, marginLeft: 40 }}
+            style={{
+              width: FONT_SIZE * 1.5,
+              height: FONT_SIZE * 1.5,
+              marginLeft: 40,
+            }}
             id="wicon"
             src={`http://openweathermap.org/img/w/${icon}.png`}
             alt="Weather icon"
